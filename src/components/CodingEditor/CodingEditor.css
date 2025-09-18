@@ -1,0 +1,60 @@
+/* CodingEditor.css */
+
+.coding-editor-container {
+  background-color: #ffffff; /* White theme */
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  max-width: 800px;
+  margin: 0 auto;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.coding-editor-container select {
+  padding: 8px 12px;
+  font-size: 14px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  margin-bottom: 15px;
+  cursor: pointer;
+}
+
+.coding-editor-container button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.coding-editor-container button:hover {
+  background-color: #0056b3;
+}
+
+.coding-editor-container h4 {
+  margin-top: 20px;
+  font-size: 16px;
+  color: #333;
+}
+
+.coding-editor-container pre {
+  background-color: #f9f9f9;
+  color: #111;
+  padding: 15px;
+  border-radius: 5px;
+  min-height: 120px;
+  overflow-x: auto;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* Adjust CodeMirror editor */
+.cm-editor {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 14px;
+}

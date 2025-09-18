@@ -1,0 +1,26 @@
+.header {
+  background-color: #000; /* Black background color */
+  color: #fff; /* White text color for readability */
+  padding: 15px 20px;
+  display: flex;
+  justify-content: flex-end; /* Pushes the content to the right side */
+  align-items: center;
+  width: 100%;
+  box-sizing: border-box; /* Includes padding in the element's total width and height */
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+}
+
+.user-info {
+  display: flex;
+  gap: 20px; /* Adds space between the user details */
+  font-size: 1rem;
+}
+
+/* Optional: Add some basic styling for the spans */
+.user-info span {
+  font-weight: 500;
+}

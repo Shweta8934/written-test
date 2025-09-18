@@ -1,0 +1,26 @@
+
+
+.navigation-container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.navigation-container button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  color: #fff;
+  background-color: #0056b3; /* Blue color for all buttons */
+  transition: background-color 0.3s ease;
+}
+
+.navigation-container button:hover:not(:disabled) {
+  background-color: #004494; /* Slightly darker on hover */
+}
+
+.navigation-container button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}

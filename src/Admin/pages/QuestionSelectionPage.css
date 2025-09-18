@@ -1,0 +1,143 @@
+:root {
+  --primary-blue: #3b82f6;
+  --secondary-gray: #f3f4f6;
+  --text-dark: #111827;
+  --text-light: #6b7280;
+  --danger-red: #ef4444;
+  --success-green: #22c55e;
+  --card-bg: #ffffff;
+  --border-color: #d1d5db;
+  --shadow-color: rgba(0, 0, 0, 0.08);
+}
+
+body {
+  background-color: #f9fafb;
+  font-family: "Poppins", sans-serif;
+  color: var(--text-dark);
+}
+
+.form-container {
+  max-width: 900px;
+  margin: 40px auto;
+  background-color: var(--card-bg);
+  padding: 2rem 2.5rem;
+  border-radius: 16px;
+  box-shadow: 0 6px 20px var(--shadow-color);
+}
+
+h2 {
+  font-size: 1.75rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.selection-info {
+  font-size: 0.95rem;
+  color: var(--text-light);
+  margin-bottom: 1rem;
+}
+
+.question-list {
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  margin-bottom: 2rem;
+  background: #fff;
+  overflow: hidden;
+}
+
+.question-item {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid var(--border-color);
+  align-items: flex-start;
+}
+
+.question-item:last-child {
+  border-bottom: none;
+}
+
+.question-content {
+  flex-grow: 1;
+}
+
+.options {
+  margin-top: 0.75rem;
+}
+
+.option-label {
+  display: block;
+  margin: 4px 0;
+  font-size: 0.95rem;
+  color: var(--text-dark);
+}
+
+.add-button {
+  padding: 0.5rem 1.2rem;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  background-color: var(--primary-blue);
+  color: white;
+  align-self: center;
+}
+
+.add-button.remove {
+  background-color: var(--danger-red);
+}
+
+.button-group {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+}
+
+.back-button,
+.save-button {
+  padding: 0.75rem 2rem;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.back-button {
+  background-color: transparent;
+  border: 1px solid var(--border-color);
+  color: var(--text-dark);
+}
+
+.save-button {
+  background-color: var(--success-green);
+  color: white;
+  border: none;
+}
+
+.save-button:disabled {
+  background-color: #9ca3af;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.answer-input {
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  background: var(--secondary-gray);
+  color: var(--text-dark);
+  font-size: 0.95rem;
+}
+
+.coding-input {
+  width: 100%;
+  margin-top: 10px;
+  padding: 12px;
+  border-radius: 8px;
+  background: var(--secondary-gray);
+  color: var(--text-dark);
+  font-size: 0.95rem;
+  font-family: monospace;
+}

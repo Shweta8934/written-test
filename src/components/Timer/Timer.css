@@ -1,0 +1,16 @@
+.timer {
+  display: flex;
+  gap: 5px;
+  background-color: #eee;
+  padding: 8px 12px;
+  border-radius: 5px;
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+}
+
+.timer-segment {
+  background-color: #fff;
+  padding: 5px 8px;
+  border-radius: 3px;
+}

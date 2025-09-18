@@ -1,0 +1,130 @@
+/* src/GenerateQuestionPage.css */
+
+.generate-question-page {
+  padding: 20px;
+  background-color: #f9fafb; /* Light page background */
+  min-height: 100vh;
+  color: #111827; /* Dark text */
+}
+
+.generate-question-page h2 {
+  color: #111827 !important;
+}
+
+.form-container {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  max-width: 400px;
+  margin: 0 auto;
+  background-color: #ffffff; 
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+}
+
+.form-container h2 {
+  color: #111827;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.form-container input,
+.form-container select {
+  padding: 12px;
+  border: 1px solid #d1d5db;
+  background-color: #ffffff;
+  color: #111827;
+  border-radius: 4px;
+  font-size: 14px;
+  width: 100%;             
+  box-sizing: border-box
+}
+
+
+
+.form-container input::placeholder {
+  color: #9ca3af;
+}
+
+/* Buttons */
+.next-button,
+.save-button,
+.reset-button,
+.option-button {
+  padding: 12px 20px;
+  background-color: #3b82f6; /* Blue primary */
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 15px;
+  transition: background-color 0.3s ease, transform 0.1s ease;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.next-button:hover,
+.save-button:hover,
+.reset-button:hover,
+.option-button:hover {
+  background-color: #2563eb;
+  transform: translateY(-2px);
+}
+
+/* Question card */
+.question-card {
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.06);
+}
+
+.question-card h3 {
+  margin-bottom: 15px;
+  color: #2563eb;
+  font-size: 1.2rem;
+  text-align: center;
+}
+
+.question-text {
+  font-size: 1rem;
+  line-height: 1.5;
+  margin-bottom: 20px;
+  color: #374151;
+}
+
+/* Options */
+.options-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.option-button {
+  background-color: #f3f4f6;
+  color: #111827;
+  border: 1px solid #d1d5db;
+  text-align: left;
+  padding: 15px;
+  border-radius: 6px;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+  text-transform: none;
+}
+
+.option-button:hover {
+  background-color: #e5e7eb;
+  border-color: #3b82f6;
+  transform: none;
+}
+
+/* Reset button */
+.reset-button {
+  background-color: #ef4444;
+  margin-top: 20px;
+}
+
+.reset-button:hover {
+  background-color: #dc2626;
+}
