@@ -1,4 +1,4 @@
-.users-page {
+/* .users-page {
   padding: 20px;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background-color: #f9f9f9;
@@ -69,5 +69,104 @@ tr:hover {
 }
 
 .clickable:hover {
-  color: #0056b3; /* Darker on hover */
+  color: #0056b3;
+} */
+.users-page-container {
+  padding: 3rem 2rem;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background-color: #f7f9fc;
+  min-height: 100vh;
+}
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+.page-header h1 {
+  font-size: 2.5rem;
+  color: #1a202c;
+  font-weight: 700;
+}
+.search-bar {
+  width: 100%;
+  max-width: 350px;
+}
+.search-bar input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  font-size: 1rem;
+  color: #4a5568;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+.search-bar input:focus {
+  outline: none;
+  border-color: #4299e1;
+  box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.5);
+}
+.loading-text, .error-message {
+  text-align: center;
+  font-size: 1.1rem;
+  color: #718096;
+  margin-top: 3rem;
+}
+.error-message {
+  color: #e53e3e;
+  font-weight: 500;
+}
+.table-responsive {
+  overflow-x: auto;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+.users-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.users-table th, .users-table td {
+  padding: 1rem 1.5rem;
+  text-align: left;
+  border-bottom: 1px solid #edf2f7;
+}
+.users-table th {
+  background-color: #f8fafc;
+  font-weight: 600;
+  color: #4a5568;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 0.875rem;
+}
+.users-table tbody tr:last-child td {
+  border-bottom: none;
+}
+.users-table tbody tr:hover {
+  background-color: #e6f6ff;
+  transition: background-color 0.2s ease-in-out;
+}
+.user-name.clickable {
+  cursor: pointer;
+  font-weight: 500;
+  transition: color 0.2s ease-in-out;
+}
+.user-name.clickable:hover {
+
+  color: #1a426f;
+}
+.admin-badge {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  background-color: #38a169;
+  color: #ffffff;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+.no-results {
+  text-align: center;
+  padding: 2rem;
+  color: #718096;
 }

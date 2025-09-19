@@ -1,10 +1,10 @@
-/* src/GenerateQuestionPage.css */
+/* 
 
 .generate-question-page {
   padding: 20px;
-  background-color: #f9fafb; /* Light page background */
+  background-color: #f9fafb;
   min-height: 100vh;
-  color: #111827; /* Dark text */
+  color: #111827;
 }
 
 .generate-question-page h2 {
@@ -47,13 +47,13 @@
   color: #9ca3af;
 }
 
-/* Buttons */
+
 .next-button,
 .save-button,
 .reset-button,
 .option-button {
   padding: 12px 20px;
-  background-color: #3b82f6; /* Blue primary */
+  background-color: #3b82f6;
   color: #fff;
   border: none;
   border-radius: 4px;
@@ -72,7 +72,7 @@
   transform: translateY(-2px);
 }
 
-/* Question card */
+
 .question-card {
   padding: 20px;
   background-color: #ffffff;
@@ -95,7 +95,7 @@
   color: #374151;
 }
 
-/* Options */
+
 .options-container {
   display: flex;
   flex-direction: column;
@@ -119,7 +119,7 @@
   transform: none;
 }
 
-/* Reset button */
+
 .reset-button {
   background-color: #ef4444;
   margin-top: 20px;
@@ -127,4 +127,248 @@
 
 .reset-button:hover {
   background-color: #dc2626;
+} */
+/* --- General Page & Container Enhancements --- */
+
+.generate-question-page {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 60px 20px;
+  min-height: 100vh;
+  background-color: #f7f7f9; /* Soft, light background */
+  color: #1f2937;
+  font-family: 'Inter', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  box-sizing: border-box;
+}
+
+.form-container,
+.selection-container {
+  width: 100%;
+  max-width: 550px; /* Increased max width for a more open feel */
+  background-color: #ffffff;
+  padding: 40px;
+  border-radius: 20px; /* More modern, rounded corners */
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.08), 0 4px 8px rgba(0, 0, 0, 0.04); /* Layered shadow for depth */
+}
+
+/* --- Typography and Headings --- */
+
+.form-container h2 {
+  font-size: 2rem; /* Larger heading */
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 25px; /* More space below the heading */
+  text-align: center;
+}
+
+.question-card h3 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #2563eb;
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.question-text {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: #374151;
+}
+
+/* --- Input Fields and Select --- */
+
+.form-container input,
+.form-container select {
+  padding: 14px 18px; /* Larger padding for a more substantial feel */
+  border: 1px solid #e2e8f0;
+  background-color: #ffffff;
+  color: #1f2937;
+  border-radius: 12px; /* Consistent rounded corners */
+  font-size: 1rem;
+  width: 100%;
+  box-sizing: border-box;
+  transition: all 0.3s ease;
+}
+
+.form-container input:focus,
+.form-container select:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.2); /* Clear focus ring */
+}
+
+.form-container input::placeholder {
+  color: #9ca3af;
+  font-weight: 400;
+}
+
+.form-container,
+.questions-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px; /* Increased gap for better spacing */
+}
+
+/* --- Buttons --- */
+
+.next-button,
+.save-button,
+.back-button {
+  padding: 14px 24px;
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 6px 15px rgba(37, 99, 235, 0.2);
+  margin-top: 10px; /* Add some margin above the button */
+}
+
+.next-button:hover,
+.save-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px rgba(37, 99, 235, 0.3);
+}
+
+.next-button:disabled {
+  background: #cbd5e1;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.back-button {
+  background: #e2e8f0;
+  color: #4b5563;
+  box-shadow: none;
+  transition: background-color 0.3s ease;
+}
+
+.back-button:hover {
+  background: #d1d5db;
+  transform: none;
+}
+
+.save-button {
+  background: #22c55e;
+  box-shadow: 0 6px 15px rgba(34, 197, 94, 0.2);
+}
+
+.save-button:hover {
+  background: #16a34a;
+}
+
+/* --- Question Card Styling (Step 2) --- */
+
+.question-card {
+  padding: 25px;
+  background-color: #ffffff;
+  border-radius: 16px;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.question-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+}
+
+.options-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.option-button {
+  display: block;
+  width: 100%;
+  padding: 16px;
+  background-color: #f8f9fa;
+  color: #1f2937;
+  border: 1px solid #e5e7eb;
+  text-align: left;
+  border-radius: 12px;
+  font-size: 1rem;
+  transition: all 0.2s ease;
+}
+
+.option-button:hover {
+  background-color: #eef2ff;
+  border-color: #a5b4fc;
+  color: #2563eb;
+  transform: none; /* Override parent button hover */
+}
+
+.option-button.selected {
+  background-color: #eef2ff;
+  border-color: #a5b4fc;
+  box-shadow: 0 0 0 2px #a5b4fc;
+  color: #2563eb;
+  font-weight: 600;
+}
+
+.reset-button {
+  background-color: #ef4444;
+  margin-top: 25px;
+  box-shadow: 0 6px 15px rgba(239, 68, 68, 0.2);
+}
+
+.reset-button:hover {
+  background-color: #dc2626;
+  transform: translateY(-3px);
+}
+
+.selected-questions-summary {
+  margin-top: 20px;
+  padding: 20px;
+  background: #fff;
+  border-radius: 12px;
+  border: 1px dashed #d1d5db;
+}
+
+.selected-questions-summary h4 {
+  margin-bottom: 10px;
+  font-weight: 600;
+  color: #4b5563;
+}
+
+.selected-questions-summary ul {
+  list-style: none;
+  padding: 0;
+}
+
+.selected-questions-summary li {
+  padding: 8px 0;
+  color: #374151;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.remove-question-btn {
+  background: none;
+  border: none;
+  color: #ef4444;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.remove-question-btn:hover {
+  color: #dc2626;
+}
+
+@media (max-width: 600px) {
+  .form-container,
+  .selection-container {
+    padding: 25px;
+    border-radius: 16px;
+  }
 }

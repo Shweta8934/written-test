@@ -13,10 +13,13 @@ const QuestionCard = ({
 
   // Reset answer whenever the question changes
   useEffect(() => {
-    if (question.type === "short") setAnswer(question.answer || "");
-    else if (question.type === "coding")
-      setAnswer(question.code || "// Write your code here...");
-    else setAnswer("");
+    if (question.questionType === "one-line") {
+      setAnswer(question.selectedOption || "");
+    } else if (question.questionType === "coding") {
+      setAnswer(question.selectedOption || "// Write your code here...");
+    } else {
+      setAnswer(question.selectedOption || "");
+    }
   }, [question]);
 
   const handleInputChange = (value) => {
@@ -28,15 +31,15 @@ const QuestionCard = ({
     <div className="question-card">
       <p className="question-text">Q. {question.question}</p>
 
-      {question.type === "mcq" && (
+      {question.questionType === "mcq" && question.options && (
         <OptionsList
           options={question.options}
-          onSelect={onSelect}
           selectedOption={selectedOption}
+          onSelect={onSelect}
         />
       )}
 
-      {question.type === "short" && (
+      {question.questionType === "one-line" && (
         <input
           type="text"
           className="short-answer-input"
@@ -46,13 +49,15 @@ const QuestionCard = ({
         />
       )}
 
-      {question.type === "coding" && (
+      {question.questionType === "coding" && (
         <CodingEditor
           language={question.language || "JavaScript"}
+          initialCode={answer}
           onCodeChange={handleInputChange}
         />
       )}
     </div>
   );
 };
+
 export default QuestionCard;

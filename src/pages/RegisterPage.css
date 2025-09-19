@@ -1,5 +1,4 @@
 
-
 .register-container {
   display: flex;
   justify-content: center;
@@ -16,6 +15,7 @@
   width: 400px;
   text-align: center;
 }
+
 .register-image {
   text-align: center;
   margin-bottom: 20px;
@@ -42,14 +42,14 @@ form {
   gap: 15px;
 }
 
+
 .input-group {
-  display: flex;
-  align-items: center;
+  position: relative;
 }
 
 .input-group input {
   width: 100%;            
-  padding: 12px 14px;
+  padding: 12px 40px 12px 14px;
   border: 1px solid #ccc;
   border-radius: 6px;
   font-size: 14px;
@@ -61,6 +61,27 @@ form {
   border-color: #28a745;
 }
 
+
+.password-wrapper {
+  position: relative;
+}
+
+.show-password-btn {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  outline: none;
+  color: #555;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
 .register-button {
   margin-top: 10px;
   padding: 12px;
@@ -70,13 +91,38 @@ form {
   color: #fff;
   font-size: 16px;
   cursor: pointer;
+  transition: background-color 0.3s;
 }
 
 .register-button:hover {
   background-color: #218838;
 }
 
+.register-button:disabled {
+  background-color: #a6d5a8;
+  cursor: not-allowed;
+}
+
+
 .register-links {
   margin-top: 20px;
   font-size: 14px;
+}
+
+.register-links a {
+  color: #28a745;
+  text-decoration: none;
+  margin-left: 5px;
+}
+
+.register-links a:hover {
+  text-decoration: underline;
+}
+
+
+.register-message {
+  margin-top: 15px;
+  color: red;
+  font-size: 14px;
+  text-align: center;
 }

@@ -1,7 +1,7 @@
 import React from "react";
 
 const Navigation = ({
-  currentQuestionIndex,
+  currentQuestionIndex, // 0-based
   totalQuestions,
   onNext,
   onPrev,
@@ -16,6 +16,7 @@ const Navigation = ({
           Previous
         </button>
       )}
+
       {isLastQuestion ? (
         <button className="nav-btn submit-btn" onClick={onSubmit}>
           Submit

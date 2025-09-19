@@ -1,121 +1,188 @@
-// // import React from "react";
-// // import "./QuizContainer.css";
-// // import QuestionCard from "../QuestionCard/QuestionCard";
-// // import Timer from "../Timer/Timer";
-// // import Navigation from "../Navigation/Navigation";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom"; // ✅ for navigation
+import axios from "axios";
+import QuestionCard from "../QuestionCard/QuestionCard";
+import Navigation from "../Navigation/Navigation";
+import Timer from "../Timer/Timer";
+import "./QuizContainer.css";
 
-// // const QuizContainer = () => {
-// //   // Hardcoded data for demonstration. In a real app, this would come from an API or state.
-// //   const questionNumber = 7;
-// //   const totalQuestions = 10;
-// //   const questionText =
-// //     "What is the name of the process that sends one qubit of information using two bits of classical information?";
-// //   const options = [
-// //     { id: "A", text: "Quantum Teleportation" },
-// //     { id: "B", text: "Quantum Entanglement" },
-// //     { id: "C", text: "Quantum Programming" },
-// //     { id: "D", text: "Super Dense Coding" },
-// //   ];
+const QuizContainer = ({ userId }) => {
+  const navigate = useNavigate(); // ✅ initialize navigation
 
-// //   return (
-// //     <div className="quiz-container">
-// //       <div className="quiz-header">
-// //         <div className="question-info">
-// //           <span className="info-icon">
-// //             <i className="fas fa-info-circle"></i> {/* Requires Font Awesome */}
-// //           </span>
-// //           <span className="question-number">
-// //             Question No.{questionNumber} of {totalQuestions}
-// //           </span>
-// //         </div>
-// //         <Timer minutes={4} seconds={28} />
-// //       </div>
-// //       <QuestionCard question={questionText} options={options} />
-// //       <Navigation />
-// //     </div>
-// //   );
-// // };
+  const [questions, setQuestions] = useState([]);
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+  const [loading, setLoading] = useState(true);
+  const [paperId, setPaperId] = useState(""); // Dynamic paperId
+  const [showConfirmation, setShowConfirmation] = useState(false); // ✅ modal state
 
-// // export default QuizContainer;
-// import React from "react";
-// import "./QuizContainer.css";
-// import QuestionCard from "../QuestionCard/QuestionCard";
-// import Timer from "../Timer/Timer";
-// import Navigation from "../Navigation/Navigation";
+  const totalQuestions = questions.length;
 
-// const QuizContainer = ({
-//   question,
-//   currentQuestionNumber,
-//   totalQuestions,
-//   time,
-//   onNext,
-//   onPrev,
-// }) => {
-//   return (
-//     <div className="quiz-container">
-//       <div className="quiz-header">
-//         <div className="question-info">
-//           <span className="info-icon">
-//             <i className="fas fa-info-circle"></i>
-//           </span>
-//           <span className="question-number">
-//             Question No.{currentQuestionNumber} of {totalQuestions}
-//           </span>
-//         </div>
-//         <Timer time={time} />
-//       </div>
-//       <QuestionCard question={question.question} options={question.options} />
-//       <Navigation
-//         onNext={onNext}
-//         onPrev={onPrev}
-//         isFirst={currentQuestionNumber === 1}
-//         isLast={currentQuestionNumber === totalQuestions}
-//       />
-//     </div>
-//   );
-// };
+  useEffect(() => {
+    const fetchUserPapersAndQuestions = async () => {
+      try {
+        const userRes = await axios.get(
+          `http://10.0.0.42:5000/api/users/getUser/${userId}`
+        );
 
-// export default QuizContainer;
-const QuizContainer = ({
-  question,
-  currentQuestionNumber,
-  totalQuestions,
-  time,
-  onNext,
-  onPrev,
-  onAnswerChange,
-}) => {
-  const handleAnswerSubmit = (answer) => {
-    onAnswerChange(currentQuestionNumber, answer);
+        const paperObjs =
+          userRes.data?.subcollections?.assignedPapers ||
+          userRes.data?.assignedPapers ||
+          [];
+        const paperIds = paperObjs.map((p) => p.paperId);
+
+        if (paperIds.length === 0) {
+          setLoading(false);
+          return;
+        }
+
+        setPaperId(paperIds[0]); // first paper
+
+        const paperPromises = paperIds.map((pid) =>
+          axios.get(
+            `http://10.0.0.42:5000/api/questionPaper/getQuestion/${pid}`
+          )
+        );
+        const paperResponses = await Promise.all(paperPromises);
+
+        const allQuestions = paperResponses
+          .map((res) => res.data?.questions || res.data?.data?.questions || [])
+          .flat();
+
+        const normalizedQuestions = allQuestions.map((q, idx) => ({
+          id: q.id || idx + 1,
+          question: q.question || q.questionText || "Untitled Question",
+          questionType: q.questionType || q.type || "mcq",
+          options: q.options || [],
+          code: q.code || "",
+          language: q.language || "JavaScript",
+          answer: q.answer || "",
+          selectedOption: q.selectedOption || null,
+        }));
+
+        setQuestions(normalizedQuestions);
+      } catch (err) {
+        console.error("Error fetching user papers/questions:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchUserPapersAndQuestions();
+  }, [userId]);
+
+  const handleNext = () => {
+    if (currentQuestionIndex < totalQuestions - 1) {
+      setCurrentQuestionIndex((prev) => prev + 1);
+    }
   };
+
+  const handlePrev = () => {
+    if (currentQuestionIndex > 0) {
+      setCurrentQuestionIndex((prev) => prev - 1);
+    }
+  };
+
+  const handleAnswerChange = (qIndex, answer) => {
+    setQuestions((prev) =>
+      prev.map((q, idx) =>
+        idx === qIndex ? { ...q, selectedOption: answer } : q
+      )
+    );
+  };
+
+  const handleSubmit = async () => {
+    try {
+      if (!paperId) return;
+
+      const payload = {
+        paperId,
+        userId,
+        responses: questions.map((q) => ({
+          questionId: q.id,
+          answer: q.selectedOption || "",
+        })),
+      };
+
+      await axios.post("http://10.0.0.42:5000/api/result/submit", payload);
+
+      // Show confirmation modal
+      setShowConfirmation(true);
+    } catch (err) {
+      console.error(err);
+      alert("Failed to submit quiz.");
+    }
+  };
+
+  if (loading) {
+    return <div className="quiz-loading">Loading your quiz...</div>;
+  }
+
+  if (!loading && questions.length === 0) {
+    return (
+      <div className="quiz-no-questions">
+        <img src="/averybit-new-full.png" alt="No questions" />
+        <h2>No Quiz Assigned</h2>
+        <p>
+          You currently have no assigned quizzes. Please check back later or
+          contact your administrator.
+        </p>
+      </div>
+    );
+  }
+
+  const currentQuestion = questions[currentQuestionIndex];
 
   return (
     <div className="quiz-container">
-      <div className="quiz-header">
-        <div className="question-info">
-          <span className="info-icon">
-            <i className="fas fa-info-circle"></i>
-          </span>
-          <span className="question-number">
-            Question No.{currentQuestionNumber} of {totalQuestions}
-          </span>
+      <div
+        className="quiz-top-bar"
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          marginBottom: "20px",
+          padding: "0 10px",
+        }}
+      >
+        <div className="question-number">
+          <h3>
+            Question {currentQuestionIndex + 1} of {totalQuestions}
+          </h3>
         </div>
-        <Timer time={time} />
+        <div className="timer">
+          <Timer totalTime={3600} />
+        </div>
       </div>
 
       <QuestionCard
-        question={question}
-        selectedOption={question.selectedOption}
-        onSelect={(option) => onAnswerChange(currentQuestionNumber, option)}
-        onAnswerSubmit={handleAnswerSubmit}
+        question={currentQuestion}
+        selectedOption={currentQuestion.selectedOption}
+        onAnswerSubmit={(answer) =>
+          handleAnswerChange(currentQuestionIndex, answer)
+        }
+        onSelect={(option) => handleAnswerChange(currentQuestionIndex, option)}
       />
 
       <Navigation
-        onNext={onNext}
-        onPrev={onPrev}
-        isFirst={currentQuestionNumber === 1}
-        isLast={currentQuestionNumber === totalQuestions}
+        currentQuestionIndex={currentQuestionIndex}
+        totalQuestions={totalQuestions}
+        onNext={handleNext}
+        onPrev={handlePrev}
+        onSubmit={handleSubmit}
       />
+
+      {/* ✅ Confirmation Modal */}
+      {showConfirmation && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <h2>Quiz Submitted Successfully!</h2>
+            <p>Thank you for completing the quiz.</p>
+            <button onClick={() => navigate("/login")} className="modal-btn">
+              OK
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

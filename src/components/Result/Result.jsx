@@ -1,62 +1,77 @@
-// ResultPage.jsx
-import { useLocation } from "react-router-dom";
+import React from "react";
+import OptionsList from "../OptionsList/OptionsList";
+import "./Result.css";
 
-// Example correct answers for demo
-const correctAnswersDemo = {
-  0: "A",
-  1: "B",
-  2: "C",
-  3: "D",
-  4: "A",
-};
-
-const ResultPage = () => {
-  const location = useLocation();
-  const { answers } = location.state || {};
-
-  // Calculate score
-  let score = 0;
-  for (let key in correctAnswersDemo) {
-    if (answers && answers[key] === correctAnswersDemo[key]) {
-      score += 1;
-    }
-  }
+const Result = ({ questions, onRestart }) => {
+  const totalCorrect = questions.filter(
+    (q) => q.selectedOption === q.answer
+  ).length;
 
   return (
-    <div style={{ padding: "20px", fontFamily: "sans-serif" }}>
-      <h1>Quiz Result</h1>
-      <h2>Demo User: John Doe</h2>
-      <h3>
-        Score: {score} / {Object.keys(correctAnswersDemo).length}
-      </h3>
+    <div className="result-container">
+      <div className="result-header">
+        <h2>Quiz Result</h2>
+        <p className="score">
+          You scored <span className="correct-count">{totalCorrect}</span> out
+          of <span className="total-count">{questions.length}</span>
+        </p>
+      </div>
 
-      <h3>Answers:</h3>
-      <table border="1" cellPadding="10" style={{ borderCollapse: "collapse" }}>
-        <thead>
-          <tr>
-            <th>Question No.</th>
-            <th>Your Answer</th>
-            <th>Correct Answer</th>
-            <th>Result</th>
-          </tr>
-        </thead>
-        <tbody>
-          {Object.keys(correctAnswersDemo).map((qIndex) => (
-            <tr key={qIndex}>
-              <td>{parseInt(qIndex) + 1}</td>
-              <td>{answers?.[qIndex] || "Not answered"}</td>
-              <td>{correctAnswersDemo[qIndex]}</td>
-              <td>
-                {answers?.[qIndex] === correctAnswersDemo[qIndex]
-                  ? "✅ Correct"
-                  : "❌ Wrong"}
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <div className="questions-list">
+        {questions.map((q, idx) => (
+          <div key={idx} className="result-question-card">
+            <p className="question-text">
+              <strong>Q{idx + 1}:</strong> {q.question}
+            </p>
+
+            {/* MCQ Questions */}
+            {q.questionType === "mcq" && (
+              <OptionsList
+                options={q.options}
+                selectedOption={q.selectedOption}
+                correctAnswer={q.answer}
+                showResult={true}
+              />
+            )}
+
+            {/* One-line questions */}
+            {q.questionType === "one-line" && (
+              <div className="answer-block">
+                <p>
+                  <span className="label">Your answer:</span>{" "}
+                  <span
+                    className={
+                      q.selectedOption === q.answer ? "correct" : "wrong"
+                    }
+                  >
+                    {q.selectedOption || "Not answered"}
+                  </span>
+                </p>
+                <p>
+                  <span className="label">Correct answer:</span>{" "}
+                  <span className="correct">{q.answer}</span>
+                </p>
+              </div>
+            )}
+
+            {/* Coding questions */}
+            {q.questionType === "coding" && (
+              <div className="answer-block">
+                <p className="code-label">Your code:</p>
+                <pre className="code-block">
+                  {q.selectedOption || "// Not answered"}
+                </pre>
+                <p className="code-label">Correct code:</p>
+                <pre className="code-block correct-code">
+                  {q.answer || "// No answer provided"}
+                </pre>
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
     </div>
   );
 };
 
-export default ResultPage;
+export default Result;
