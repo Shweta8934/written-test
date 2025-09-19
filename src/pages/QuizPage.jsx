@@ -9,7 +9,6 @@ const QuizPage = () => {
 
   // 🔹 Get userId from localStorage
   const userId = localStorage.getItem("userId");
-  console.log("UserId from localStorage:", userId);
 
   const handleStartQuiz = () => {
     setQuizStarted(true);

@@ -22,7 +22,7 @@ const QuizContainer = ({ userId }) => {
     const fetchUserPapersAndQuestions = async () => {
       try {
         const userRes = await axios.get(
-          `{API_URL}/api/users/getUser/${userId}`
+          `${API_URL}/api/users/getUser/${userId}`
         );
 
         const paperObjs =

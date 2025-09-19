@@ -19,21 +19,44 @@ const UserDetailsPage = () => {
 
   const [showConfirmModal, setShowConfirmModal] = useState(false);
 
-  // Fetch user details
+  // 🔹 Results state
+  const [results, setResults] = useState([]);
+  const [loadingResults, setLoadingResults] = useState(true);
+
   useEffect(() => {
     const fetchUser = async () => {
       try {
         const response = await axios.get(`${API_URL}/api/users/getUser/${uid}`);
         setUser(response.data);
+        console.log(response.data);
+
+        if (response.data.tests && response.data.tests.length > 0) {
+          const mappedResults = response.data.tests.map((t, idx) => ({
+            id: `res-${idx}`,
+            resultId: t.resultId,
+            paperName: t.testName,
+            score: t.score,
+            totalMarks: t.total,
+            attemptedOn: new Date(t.submittedOn).toLocaleString(),
+          }));
+          setResults(mappedResults);
+          console.log("Mapped Results:", mappedResults); // ✅ log the mapped results directly
+        }
       } catch (err) {
         console.error(err);
         setError("Failed to fetch user details.");
       } finally {
         setLoadingUser(false);
+        setLoadingResults(false);
       }
     };
     fetchUser();
-  }, [uid]);
+  }, [uid, API_URL]);
+
+  // Debug after state update
+  useEffect(() => {
+    console.log("Results state updated:", results);
+  }, [results]);
 
   // Fetch all papers
   useEffect(() => {
@@ -49,14 +72,14 @@ const UserDetailsPage = () => {
       }
     };
     fetchPapers();
-  }, []);
+  }, [API_URL]);
 
   // Open confirmation modal on dropdown select
   const handlePaperSelect = (e) => {
     const paperId = e.target.value;
     setSelectedPaper(paperId);
     if (paperId) {
-      setShowConfirmModal(true); // show modal when a paper is selected
+      setShowConfirmModal(true);
     } else {
       setShowConfirmModal(false);
     }
@@ -90,109 +113,169 @@ const UserDetailsPage = () => {
       setMessage("Failed to assign paper. Try again.");
     } finally {
       setAssigning(false);
-      setShowConfirmModal(false); // hide modal after assignment
+      setShowConfirmModal(false);
     }
   };
 
   return (
     <div className="user-details-page">
-      <button className="back-btn" onClick={() => navigate(-1)}>
-        &larr; Back
-      </button>
-
-      <h1>User Details</h1>
+      <div className="page-header">
+        <button className="back-btn" onClick={() => navigate(-1)}>
+          &larr;
+        </button>
+        <h1
+          className="page-title"
+          style={{ textAlign: "center", width: "100%" }}
+        >
+          Details
+        </h1>
+      </div>
 
       {loadingUser ? (
-        <p>Loading user details...</p>
+        <p className="loading-text">Loading user details...</p>
       ) : error ? (
-        <p className="error">{error}</p>
+        <p className="error-text">{error}</p>
       ) : user ? (
-        <div className="user-details-card">
-          <h2>{user.name}</h2>
-          <p>
-            <strong>Email:</strong> {user.email}
-          </p>
-          <p>
-            <strong>Phone:</strong> {user.phone}
-          </p>
-          <p>
-            <strong>Address:</strong> {user.address}
-          </p>
-          <p>
-            <strong>Created At:</strong>{" "}
-            {new Date(user.createdAt._seconds * 1000).toLocaleString()}
-          </p>
-
-          <div className="paper-dropdown">
-            <label htmlFor="papers">Select Paper:</label>
-            {loadingPapers ? (
-              <p>Loading papers...</p>
-            ) : (
-              <select
-                id="papers"
-                value={selectedPaper}
-                onChange={handlePaperSelect}
-              >
-                <option value="">-- Select Paper --</option>
-                {papers.map((paper) => (
-                  <option key={paper.id} value={paper.id}>
-                    {paper.paperName}
-                  </option>
-                ))}
-              </select>
-            )}
-            <button
-              onClick={handleAssignPaper}
-              disabled={!selectedPaper || !showConfirmModal || assigning}
-              style={{ marginLeft: "10px" }}
-            >
-              {assigning ? "Assigning..." : "Assign Paper"}
-            </button>
+        <div className="main-content">
+          <div className="user-info-card">
+            <h2 className="user-name">{user.name}</h2>
+            <div className="user-info-list">
+              <p>
+                <strong>Email:</strong> {user.email}
+              </p>
+              <p>
+                <strong>Phone:</strong> {user.phone}
+              </p>
+              <p>
+                <strong>Address:</strong> {user.address}
+              </p>
+              <p>
+                <strong>Created At:</strong>{" "}
+                {new Date(user.createdAt._seconds * 1000).toLocaleString()}
+              </p>
+            </div>
           </div>
 
-          {message && <p className="assign-message">{message}</p>}
-
-          {showConfirmModal && selectedPaper && (
-            <div className="confirmation-modal">
-              <div className="modal-content">
-                <h3>Confirm Assignment</h3>
-                <p>
-                  Are you sure you want to assign this paper to{" "}
-                  <strong>{user.name}</strong>?
-                </p>
-                {papers
-                  .filter((paper) => paper.id === selectedPaper)
-                  .map((paper) => (
-                    <div key={paper.id}>
-                      <p>
-                        <strong>Paper Name:</strong> {paper.paperName}
-                      </p>
-                      <p>
-                        <strong>Duration:</strong> {paper.duration} mins
-                      </p>
-                      <p>
-                        <strong>Number of Questions:</strong>{" "}
-                        {paper.numOfQuestions}
-                      </p>
-                    </div>
+          <div className="assignment-section card">
+            <h2>Assign a New Paper</h2>
+            <div className="paper-assignment-controls">
+              <label htmlFor="papers">Select Paper:</label>
+              {loadingPapers ? (
+                <p className="loading-text">Loading papers...</p>
+              ) : (
+                <select
+                  id="papers"
+                  value={selectedPaper}
+                  onChange={handlePaperSelect}
+                  className="paper-select"
+                >
+                  <option value="">-- Select Paper --</option>
+                  {papers.map((paper) => (
+                    <option key={paper.id} value={paper.id}>
+                      {paper.paperName}
+                    </option>
                   ))}
-                <div className="modal-buttons">
-                  <button
-                    onClick={() => setShowConfirmModal(false)}
-                    className="cancel-btn"
-                  >
-                    Cancel
-                  </button>
-                  <button onClick={handleAssignPaper} className="confirm-btn">
-                    Confirm
-                  </button>
-                </div>
-              </div>
+                </select>
+              )}
+              <button
+                onClick={handleAssignPaper}
+                disabled={!selectedPaper || !showConfirmModal || assigning}
+                className="assign-btn"
+              >
+                {assigning ? "Assigning..." : "Assign Paper"}
+              </button>
             </div>
-          )}
+            {message && <p className="assign-message">{message}</p>}
+          </div>
+
+          <div className="results-section card">
+            <h2>Test Results</h2>
+            {loadingResults ? (
+              <p className="loading-text">Loading results...</p>
+            ) : results.length > 0 ? (
+              <table className="results-table">
+                <thead>
+                  <tr>
+                    <th>Paper</th>
+                    <th>Score</th>
+                    <th>Total Marks</th>
+                    <th>Attempted On</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {results.map((res) => (
+                    <tr key={res.id}>
+                      <td>{res.paperName}</td>
+                      <td>{res.score}</td>
+                      <td>{res.totalMarks}</td>
+                      <td>{res.attemptedOn}</td>
+                      <td>
+                        <button
+                          className="view-btn"
+                          onClick={() => navigate(`/results/${res.resultId}`)}
+                        >
+                          View
+                        </button>
+
+                        {/* <button
+                          className="view-btn"
+                          onClick={() =>
+                            navigate(`/user/${uid}/results/${res.id}`)
+                          }
+                        >
+                          View
+                        </button> */}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            ) : (
+              <p className="no-results-text">No test results found.</p>
+            )}
+          </div>
         </div>
       ) : (
-        <p>User not found</p>
+        <p className="not-found-text">User not found</p>
+      )}
+
+      {showConfirmModal && selectedPaper && (
+        <div className="modal-overlay">
+          <div className="confirmation-modal">
+            <h3>Confirm Assignment</h3>
+            <p>
+              Are you sure you want to assign this paper to{" "}
+              <strong>{user.name}</strong>?
+            </p>
+            {papers
+              .filter((paper) => paper.id === selectedPaper)
+              .map((paper) => (
+                <div key={paper.id} className="paper-details-summary">
+                  <p>
+                    <strong>Paper Name:</strong> {paper.paperName}
+                  </p>
+                  <p>
+                    <strong>Duration:</strong> {paper.duration} mins
+                  </p>
+                  <p>
+                    <strong>Number of Questions:</strong> {paper.numOfQuestions}
+                  </p>
+                </div>
+              ))}
+            <div className="modal-buttons">
+              <button
+                onClick={() => setShowConfirmModal(false)}
+                className="btn-secondary"
+              >
+                Cancel
+              </button>
+              <button onClick={handleAssignPaper} className="btn-primary">
+                Confirm
+              </button>
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );

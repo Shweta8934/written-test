@@ -1,50 +1,3 @@
-// import React from "react";
-// import {
-//   BrowserRouter as Router,
-//   Routes,
-//   Route,
-//   Navigate,
-// } from "react-router-dom";
-// import { useSelector } from "react-redux";
-// import AdminDashboard from "./Admin/pages/AdminDashboard";
-// import QuizPage from "./pages/QuizPage";
-// import RegisterPage from "./pages/registerPage";
-// import LoginPage from "./pages/LoginPage";
-// import QuestionPaperDetailsPage from "./Admin/pages/QuestionPapers/QuestionPaperDetailsPage";
-// function App() {
-//   const isAdmin = useSelector((state) => state.user.isAdmin);
-//   const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
-
-//   return (
-//     <Router>
-//       <Routes>
-//         <Route path="/" element={<RegisterPage />} />
-//         <Route path="/login" element={<LoginPage />} />
-//         <Route
-//           path="/dashboard"
-//           element={
-//             isLoggedIn ? (
-//               isAdmin ? (
-//                 <AdminDashboard />
-//               ) : (
-//                 <Navigate to="/quiz" />
-//               )
-//             ) : (
-//               <Navigate to="/" />
-//             )
-//           }
-//         />
-//         <Route path="/quiz" element={<QuizPage />} />
-//         <Route
-//           path="/question-paper/:id"
-//           element={<QuestionPaperDetailsPage />}
-//         />
-//       </Routes>
-//     </Router>
-//   );
-// }
-
-// export default App;
 import React, { useEffect } from "react";
 import {
   BrowserRouter as Router,
@@ -61,7 +14,7 @@ import QuestionPaperDetailsPage from "./Admin/pages/QuestionPapers/QuestionPaper
 import { loginSuccess } from "./redux/slice/userSlice";
 import UsersPage from "./Admin/pages/UsersPage";
 import UserDetailsPage from "./Admin/pages/UserDetailsPage";
-
+import UserResult from "./Admin/pages/UserResult";
 function App() {
   const dispatch = useDispatch();
   const { isLoggedIn, user } = useSelector((state) => state.user);
@@ -108,6 +61,7 @@ function App() {
         />
         <Route path="/users" element={<UsersPage />} />
         <Route path="/users/:uid" element={<UserDetailsPage />} />
+        <Route path="/results/:resultId" element={<UserResult />} />
       </Routes>
     </Router>
   );
