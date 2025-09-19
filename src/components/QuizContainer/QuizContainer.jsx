@@ -15,13 +15,14 @@ const QuizContainer = ({ userId }) => {
   const [paperId, setPaperId] = useState(""); // Dynamic paperId
   const [showConfirmation, setShowConfirmation] = useState(false); // ✅ modal state
 
+  const API_URL = process.env.REACT_APP_API_URL;
   const totalQuestions = questions.length;
 
   useEffect(() => {
     const fetchUserPapersAndQuestions = async () => {
       try {
         const userRes = await axios.get(
-          `http://10.0.0.42:5000/api/users/getUser/${userId}`
+          `{API_URL}/api/users/getUser/${userId}`
         );
 
         const paperObjs =
@@ -38,9 +39,7 @@ const QuizContainer = ({ userId }) => {
         setPaperId(paperIds[0]); // first paper
 
         const paperPromises = paperIds.map((pid) =>
-          axios.get(
-            `http://10.0.0.42:5000/api/questionPaper/getQuestion/${pid}`
-          )
+          axios.get(`${API_URL}/api/questionPaper/getQuestion/${pid}`)
         );
         const paperResponses = await Promise.all(paperPromises);
 
@@ -103,7 +102,7 @@ const QuizContainer = ({ userId }) => {
         })),
       };
 
-      await axios.post("http://10.0.0.42:5000/api/result/submit", payload);
+      await axios.post(`${API_URL}/api/result/submit`, payload);
 
       // Show confirmation modal
       setShowConfirmation(true);
