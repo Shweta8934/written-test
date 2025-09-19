@@ -177,7 +177,7 @@ const QuizContainer = ({ userId }) => {
           <div className="modal-content">
             <h2>Quiz Submitted Successfully!</h2>
             <p>Thank you for completing the quiz.</p>
-            <button onClick={() => navigate("/login")} className="modal-btn">
+            <button onClick={() => navigate("/")} className="modal-btn">
               OK
             </button>
           </div>

@@ -216,7 +216,7 @@ const RegisterPage = () => {
 
       setMessage(data.message);
       alert("✅ Registration Successful!");
-      window.location.href = "/login";
+      window.location.href = "/";
     } catch (error) {
       setMessage(error.message);
       alert("❌ " + error.message);
@@ -328,7 +328,7 @@ const RegisterPage = () => {
 
         <div className="register-links">
           <span>Already have an account? </span>
-          <a href="/login">Login Here</a>
+          <a href="/">Login Here</a>
         </div>
       </div>
     </div>

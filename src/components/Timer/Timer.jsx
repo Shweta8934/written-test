@@ -39,7 +39,7 @@ const Timer = ({ totalTime }) => {
   useEffect(() => {
     if (time <= 0) {
       // Time's up → redirect to /login
-      navigate("/login");
+      navigate("/");
       return;
     }
 
