@@ -22,8 +22,9 @@
 }
 
 .register-image img {
-  width: 100px;
-  height: auto;
+ width: 150px;
+  max-width: 100%;
+  height: auto;  
 }
 
 .register-icon {

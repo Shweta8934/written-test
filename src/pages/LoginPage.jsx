@@ -62,8 +62,8 @@ const LoginPage = () => {
         <img src="/averybit-new-full.png" alt="Register" />
       </div>
 
-      <h2>Log In </h2>
-
+      {/* <h2>Log In </h2> */}
+      <h4 className="login-title"> Enter your details</h4>
       <form onSubmit={handleSubmit}>
         <div className="form-grid">
           <div className="form-group">

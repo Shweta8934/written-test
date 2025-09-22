@@ -154,7 +154,22 @@ const RegisterPage = () => {
               name="phone"
               placeholder="Phone Number"
               value={formData.phone}
-              onChange={handleChange}
+              onChange={(e) => {
+                let value = e.target.value;
+
+                // Always start with +91
+                if (!value.startsWith("+91")) {
+                  value = "+91";
+                }
+
+                // Allow only numbers after +91
+                value = "+91" + value.slice(3).replace(/\D/g, "");
+
+                setFormData((prev) => ({
+                  ...prev,
+                  phone: value,
+                }));
+              }}
               required
             />
           </div>
