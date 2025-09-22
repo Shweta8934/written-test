@@ -19,7 +19,7 @@ const UserResult = () => {
         if (response.data.success) {
           setResult(response.data);
         } else {
-          setError("Result not found.");
+          setResult(null); // no result but not an error
         }
       } catch (err) {
         console.error(err);
@@ -36,7 +36,7 @@ const UserResult = () => {
     <div className="user-result-page">
       <div className="result-header">
         <button className="back-btn" onClick={() => navigate(-1)}>
-          &larr; Back
+          &larr;
         </button>
         <h1 className="page-title">Result Details</h1>
       </div>

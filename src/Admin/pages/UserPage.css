@@ -1,59 +1,78 @@
 
+
+:root {
+  --primary-color: #2c5282;
+  --secondary-color: #f7fafc;
+  --text-color: #2d3748;
+  --light-gray: #e2e8f0;
+  --dark-gray: #718096;
+  --accent-blue: #4299e1;
+  --hover-bg: #ebf8ff;
+  --shadow-color: rgba(0, 0, 0, 0.05);
+}
+
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  background-color: #f7f9fc;
-  color: #4a5568;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background-color: var(--secondary-color);
+  color: var(--text-color);
+  line-height: 1.6;
 }
 
 .users-page-container {
-  max-width: 1200px;
+  max-width: 1280px;
   margin: 0 auto;
-  padding: 3rem 2rem;
+  padding: 3rem 1.5rem;
   min-height: 100vh;
 }
 
 .page-header {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1.5rem;
   margin-bottom: 2rem;
 }
 
 .page-header h1 {
-  font-size: 2.5rem;
-  font-weight: 700;
-  color: #1a202c;
+  font-size: 2.75rem;
+  font-weight: 800;
+  color: var(--primary-color);
   margin: 0;
 }
 
 .search-bar {
   width: 100%;
-  max-width: 350px;
+  max-width: 400px;
 }
 
 .search-bar input {
   width: 100%;
-  padding: 0.75rem 1rem;
-  border-radius: 8px;
-  border: 1px solid #e2e8f0;
+  padding: 0.9rem 1.25rem;
+  border-radius: 9999px;
+  border: 1px solid var(--light-gray);
   font-size: 1rem;
-  color: #4a5568;
-  transition: border-color 0.3s, box-shadow 0.3s;
-  font-family: inherit;
+  color: var(--text-color);
+  transition: all 0.2s ease-in-out;
+  background-color: #fff;
+  box-shadow: 0 1px 3px 0 var(--shadow-color), 0 1px 2px 0 var(--shadow-color);
 }
 
 .search-bar input:focus {
   outline: none;
-  border-color: #4299e1;
-  box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.5);
+  border-color: var(--accent-blue);
+  box-shadow: 0 0 0 4px rgba(66, 153, 225, 0.3), 0 1px 3px 0 var(--shadow-color);
 }
 
 .loading-text, .error-message, .no-results {
   text-align: center;
   font-size: 1.1rem;
-  color: #718096;
-  margin-top: 3rem;
+  color: var(--dark-gray);
+  margin-top: 4rem;
   font-style: italic;
+  padding: 1.5rem;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px var(--shadow-color);
 }
 
 .error-message {
@@ -65,7 +84,12 @@ body {
   overflow-x: auto;
   background-color: #ffffff;
   border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 12px var(--shadow-color);
+  transition: box-shadow 0.3s ease-in-out;
+}
+
+.table-responsive:hover {
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
 }
 
 .users-table {
@@ -74,19 +98,23 @@ body {
 }
 
 .users-table th, .users-table td {
-  padding: 1rem 1.5rem;
+  padding: 1.25rem 2rem;
   text-align: left;
-  border-bottom: 1px solid #edf2f7;
+  border-bottom: 1px solid var(--light-gray);
   font-family: inherit;
+  transition: all 0.2s ease-in-out;
 }
 
 .users-table th {
   background-color: #f8fafc;
-  font-weight: 600;
-  color: #4a5568;
+  font-weight: 700;
+  color: var(--primary-color);
   text-transform: uppercase;
   letter-spacing: 0.05em;
   font-size: 0.875rem;
+  position: sticky;
+  top: 0;
+  z-index: 10;
 }
 
 .users-table tbody tr:last-child td {
@@ -94,21 +122,71 @@ body {
 }
 
 .users-table tbody tr:hover {
-  background-color: #e6f6ff;
-  transition: background-color 0.2s ease-in-out;
+  background-color: var(--hover-bg);
 }
 
-.user-name.clickable {
+.clickable {
   cursor: pointer;
-
-  transition: color 0.2s ease-in-out;
+  color: var(--primary-color);
+  font-weight: 500;
+  transition: all 0.2s ease-in-out;
 }
 
-.user-name.clickable:hover {
-  color: #1a426f;
+.clickable:hover {
+  color: var(--accent-blue);
+  text-decoration: underline;
 }
 
 .no-results {
   text-align: center;
   padding: 2rem;
+}
+
+@media (min-width: 768px) {
+  .page-header {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+
+@media (max-width: 767px) {
+  .users-table thead {
+    display: none;
+  }
+
+  .users-table, .users-table tbody, .users-table tr, .users-table td {
+    display: block;
+    width: 100%;
+  }
+
+  .users-table tr {
+    margin-bottom: 1.5rem;
+    border: 1px solid var(--light-gray);
+    border-radius: 8px;
+    box-shadow: 0 1px 3px 0 var(--shadow-color);
+    background-color: #fff;
+  }
+
+  .users-table td {
+    text-align: right;
+    padding-left: 50%;
+    position: relative;
+  }
+
+  .users-table td::before {
+    content: attr(data-label);
+    position: absolute;
+    left: 0;
+    width: 50%;
+    padding-left: 1.5rem;
+    font-weight: 700;
+    text-align: left;
+  }
+
+  .users-table td:nth-of-type(1)::before { content: "Name"; }
+  .users-table td:nth-of-type(2)::before { content: "Email"; }
+  .users-table td:nth-of-type(3)::before { content: "Phone"; }
+  .users-table td:nth-of-type(4)::before { content: "Address"; }
+  .users-table td:nth-of-type(5)::before { content: "Created At"; }
 }

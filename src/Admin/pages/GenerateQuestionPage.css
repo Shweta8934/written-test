@@ -1,167 +1,39 @@
-/* 
 
-.generate-question-page {
-  padding: 20px;
-  background-color: #f9fafb;
-  min-height: 100vh;
-  color: #111827;
-}
-
-.generate-question-page h2 {
-  color: #111827 !important;
-}
-
-.form-container {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  max-width: 400px;
-  margin: 0 auto;
-  background-color: #ffffff; 
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
-}
-
-.form-container h2 {
-  color: #111827;
-  margin-bottom: 10px;
-  text-align: center;
-}
-
-.form-container input,
-.form-container select {
-  padding: 12px;
-  border: 1px solid #d1d5db;
-  background-color: #ffffff;
-  color: #111827;
-  border-radius: 4px;
-  font-size: 14px;
-  width: 100%;             
-  box-sizing: border-box
-}
-
-
-
-.form-container input::placeholder {
-  color: #9ca3af;
-}
-
-
-.next-button,
-.save-button,
-.reset-button,
-.option-button {
-  padding: 12px 20px;
-  background-color: #3b82f6;
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 15px;
-  transition: background-color 0.3s ease, transform 0.1s ease;
-  font-weight: 600;
-  text-transform: uppercase;
-}
-
-.next-button:hover,
-.save-button:hover,
-.reset-button:hover,
-.option-button:hover {
-  background-color: #2563eb;
-  transform: translateY(-2px);
-}
-
-
-.question-card {
-  padding: 20px;
-  background-color: #ffffff;
-  border-radius: 8px;
-  border: 1px solid #e5e7eb;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.06);
-}
-
-.question-card h3 {
-  margin-bottom: 15px;
-  color: #2563eb;
-  font-size: 1.2rem;
-  text-align: center;
-}
-
-.question-text {
-  font-size: 1rem;
-  line-height: 1.5;
-  margin-bottom: 20px;
-  color: #374151;
-}
-
-
-.options-container {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.option-button {
-  background-color: #f3f4f6;
-  color: #111827;
-  border: 1px solid #d1d5db;
-  text-align: left;
-  padding: 15px;
-  border-radius: 6px;
-  transition: background-color 0.2s ease, border-color 0.2s ease;
-  text-transform: none;
-}
-
-.option-button:hover {
-  background-color: #e5e7eb;
-  border-color: #3b82f6;
-  transform: none;
-}
-
-
-.reset-button {
-  background-color: #ef4444;
-  margin-top: 20px;
-}
-
-.reset-button:hover {
-  background-color: #dc2626;
-} */
-/* --- General Page & Container Enhancements --- */
 
 .generate-question-page {
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  padding: 60px 20px;
+  padding: 0 20px 60px 20px;
+  margin: 0 !important;
   min-height: 100vh;
-  background-color: #f7f7f9; /* Soft, light background */
+  background-color: #f7f7f9;
   color: #1f2937;
   font-family: 'Inter', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   box-sizing: border-box;
 }
 
+
+
 .form-container,
 .selection-container {
   width: 100%;
-  max-width: 550px; /* Increased max width for a more open feel */
+  max-width: 550px;
   background-color: #ffffff;
-  padding: 40px;
-  border-radius: 20px; /* More modern, rounded corners */
-  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.08), 0 4px 8px rgba(0, 0, 0, 0.04); /* Layered shadow for depth */
+  padding: 20px;
+  border-radius: 20px;
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.08), 0 4px 8px rgba(0, 0, 0, 0.04);
 }
 
-/* --- Typography and Headings --- */
+
 
 .form-container h2 {
-  font-size: 2rem; /* Larger heading */
+  font-size: 2rem;
   font-weight: 700;
   color: #111827;
-  margin-bottom: 25px; /* More space below the heading */
+  margin-bottom: 0px;
   text-align: center;
 }
-
 .question-card h3 {
   font-size: 1.5rem;
   font-weight: 600;
@@ -176,15 +48,15 @@
   color: #374151;
 }
 
-/* --- Input Fields and Select --- */
+
 
 .form-container input,
 .form-container select {
-  padding: 14px 18px; /* Larger padding for a more substantial feel */
+  padding: 14px 18px;
   border: 1px solid #e2e8f0;
   background-color: #ffffff;
   color: #1f2937;
-  border-radius: 12px; /* Consistent rounded corners */
+  border-radius: 12px;
   font-size: 1rem;
   width: 100%;
   box-sizing: border-box;
@@ -195,7 +67,7 @@
 .form-container select:focus {
   outline: none;
   border-color: #3b82f6;
-  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.2); /* Clear focus ring */
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.2);
 }
 
 .form-container input::placeholder {
@@ -207,10 +79,10 @@
 .questions-list {
   display: flex;
   flex-direction: column;
-  gap: 20px; /* Increased gap for better spacing */
+  gap: 20px;
 }
 
-/* --- Buttons --- */
+
 
 .next-button,
 .save-button,
@@ -225,7 +97,7 @@
   font-weight: 600;
   transition: all 0.3s ease;
   box-shadow: 0 6px 15px rgba(37, 99, 235, 0.2);
-  margin-top: 10px; /* Add some margin above the button */
+  margin-top: 10px;
 }
 
 .next-button:hover,
@@ -262,7 +134,7 @@
   background: #16a34a;
 }
 
-/* --- Question Card Styling (Step 2) --- */
+
 
 .question-card {
   padding: 25px;
@@ -302,7 +174,7 @@
   background-color: #eef2ff;
   border-color: #a5b4fc;
   color: #2563eb;
-  transform: none; /* Override parent button hover */
+  transform: none;
 }
 
 .option-button.selected {

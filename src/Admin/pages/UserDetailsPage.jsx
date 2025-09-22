@@ -28,7 +28,6 @@ const UserDetailsPage = () => {
       try {
         const response = await axios.get(`${API_URL}/api/users/getUser/${uid}`);
         setUser(response.data);
-        console.log(response.data);
 
         if (response.data.tests && response.data.tests.length > 0) {
           const mappedResults = response.data.tests.map((t, idx) => ({
@@ -40,7 +39,6 @@ const UserDetailsPage = () => {
             attemptedOn: new Date(t.submittedOn).toLocaleString(),
           }));
           setResults(mappedResults);
-          console.log("Mapped Results:", mappedResults); // ✅ log the mapped results directly
         }
       } catch (err) {
         console.error(err);

@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom"; // ✅ for navigation
 import axios from "axios";
 import QuestionCard from "../QuestionCard/QuestionCard";
 import Navigation from "../Navigation/Navigation";
 import Timer from "../Timer/Timer";
 import "./QuizContainer.css";
+import Header from "../Header/Header";
 
 const QuizContainer = ({ userId }) => {
   const navigate = useNavigate(); // ✅ initialize navigation
@@ -24,19 +25,21 @@ const QuizContainer = ({ userId }) => {
         const userRes = await axios.get(
           `${API_URL}/api/users/getUser/${userId}`
         );
+        const userData = userRes.data;
 
-        const paperObjs =
-          userRes.data?.subcollections?.assignedPapers ||
-          userRes.data?.assignedPapers ||
-          [];
-        const paperIds = paperObjs.map((p) => p.paperId);
+        // ✅ Use tests instead of subcollections.assignedPapers
+        const paperObjs = userData?.tests || [];
+
+        // ✅ Map testId as paperId
+        const paperIds = paperObjs.map((t) => t.testId);
 
         if (paperIds.length === 0) {
           setLoading(false);
           return;
         }
 
-        setPaperId(paperIds[0]); // first paper
+        // ✅ first paperId = first testId
+        setPaperId(paperIds[0]);
 
         const paperPromises = paperIds.map((pid) =>
           axios.get(`${API_URL}/api/questionPaper/getQuestion/${pid}`)
@@ -132,57 +135,60 @@ const QuizContainer = ({ userId }) => {
   const currentQuestion = questions[currentQuestionIndex];
 
   return (
-    <div className="quiz-container">
-      <div
-        className="quiz-top-bar"
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          marginBottom: "20px",
-          padding: "0 10px",
-        }}
-      >
-        <div className="question-number">
-          <h3>
-            Question {currentQuestionIndex + 1} of {totalQuestions}
-          </h3>
-        </div>
-        <div className="timer">
-          <Timer totalTime={3600} />
-        </div>
-      </div>
+    <>
+      <Header />
 
-      <QuestionCard
-        question={currentQuestion}
-        selectedOption={currentQuestion.selectedOption}
-        onAnswerSubmit={(answer) =>
-          handleAnswerChange(currentQuestionIndex, answer)
-        }
-        onSelect={(option) => handleAnswerChange(currentQuestionIndex, option)}
-      />
-
-      <Navigation
-        currentQuestionIndex={currentQuestionIndex}
-        totalQuestions={totalQuestions}
-        onNext={handleNext}
-        onPrev={handlePrev}
-        onSubmit={handleSubmit}
-      />
-
-      {/* ✅ Confirmation Modal */}
-      {showConfirmation && (
-        <div className="modal-overlay">
-          <div className="modal-content">
-            <h2>Quiz Submitted Successfully!</h2>
-            <p>Thank you for completing the quiz.</p>
-            <button onClick={() => navigate("/")} className="modal-btn">
-              OK
-            </button>
+      <div className="quiz-container">
+        <div
+          className="quiz-top-bar"
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            marginBottom: "20px",
+            padding: "0 10px",
+          }}
+        >
+          <div className="question-number">
+            <h3>
+              Question {currentQuestionIndex + 1} of {totalQuestions}
+            </h3>
+          </div>
+          <div className="timer">
+            <Timer totalTime={3600} />
           </div>
         </div>
-      )}
-    </div>
+        <QuestionCard
+          question={currentQuestion}
+          selectedOption={currentQuestion.selectedOption}
+          onAnswerSubmit={(answer) =>
+            handleAnswerChange(currentQuestionIndex, answer)
+          }
+          onSelect={(option) =>
+            handleAnswerChange(currentQuestionIndex, option)
+          }
+        />
+        <Navigation
+          currentQuestionIndex={currentQuestionIndex}
+          totalQuestions={totalQuestions}
+          onNext={handleNext}
+          onPrev={handlePrev}
+          onSubmit={handleSubmit}
+        />
+        {/* ✅ Confirmation Modal */}
+        {showConfirmation && (
+          <div className="modal-overlay">
+            <div className="modal-content">
+              <h2>Quiz Submitted Successfully!</h2>
+              <p>Thank you for completing the quiz.</p>
+              <button onClick={() => navigate("/")} className="modal-btn">
+                OK
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
+    </>
   );
 };
 

@@ -1,11 +1,11 @@
-/* CodingEditor.css */
 
 .coding-editor-container {
-  background-color: #ffffff; /* White theme */
+  background-color: #ffffff;
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
   max-width: 800px;
+  min-width: 600px;
   margin: 0 auto;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
@@ -52,9 +52,11 @@
   line-height: 1.5;
 }
 
-/* Adjust CodeMirror editor */
+
 .cm-editor {
   border: 1px solid #ccc;
   border-radius: 5px;
   font-size: 14px;
+  width: 100%;
+  box-sizing: border-box;
 }

@@ -110,7 +110,7 @@ const GenerateQuestionPage = () => {
     <div className="generate-question-page">
       {step === 1 ? (
         <div className="form-container">
-          <h2>Quiz Details</h2>
+          <h2>Set Paper Details</h2>
           <select
             name="topic"
             value={quizDetails.topic}

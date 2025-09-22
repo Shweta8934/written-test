@@ -1,20 +1,128 @@
 .admin-sidebar {
-  width: 250px; 
-  background-color: #ffffff;
-  padding: 20px 0;
+  width: 280px;
+  background: linear-gradient(135deg, #121c26 0%, #b1d0f2 100%);
+  padding: 0;
   display: flex;
   flex-direction: column;
-  border-right: 1px solid #e0e0e0;
-  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.05);
+  border-radius: 0 15px 15px 0;
+  box-shadow: 4px 0 15px rgba(0, 123, 255, 0.2);
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
 }
 
-.sidebar-item {
-  padding: 15px 20px;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
+.admin-sidebar::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="75" cy="75" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="50" cy="10" r="0.5" fill="rgba(255,255,255,0.05)"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+  pointer-events: none;
+}
+
+.sidebar-header {
+  padding: 25px 20px;
+  text-align: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  position: relative;
+  z-index: 1;
+}
+
+.sidebar-header h3 {
+  color: white;
+  margin: 0;
+  font-size: 22px;
+  font-weight: 600;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.sidebar-menu {
+  padding: 30px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  flex: 1;
+  position: relative;
+  z-index: 1;
+}
+
+.sidebar-btn {
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  padding: 16px 20px;
+  color: white;
   font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  backdrop-filter: blur(10px);
+  position: relative;
+  overflow: hidden;
 }
 
-.sidebar-item:hover {
-  background-color: #f5f5f5;
+.sidebar-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s;
+}
+
+.sidebar-btn:hover::before {
+  left: 100%;
+}
+
+.sidebar-btn:hover {
+  background: rgba(255, 255, 255, 0.25);
+  border-color: rgba(255, 255, 255, 0.4);
+  transform: translateX(8px) scale(1.02);
+  box-shadow: 0 8px 25px rgba(0, 123, 255, 0.3);
+}
+
+.sidebar-btn:active {
+  transform: translateX(8px) scale(0.98);
+}
+
+.btn-icon {
+  font-size: 18px;
+  flex-shrink: 0;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.2));
+}
+
+.btn-text {
+  flex: 1;
+  text-align: left;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+/* Active state for selected button */
+.sidebar-btn.active {
+  background: rgba(255, 255, 255, 0.3);
+  border-color: rgba(255, 255, 255, 0.5);
+  transform: translateX(8px);
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .admin-sidebar {
+    width: 250px;
+  }
+  
+  .sidebar-btn {
+    padding: 14px 16px;
+    font-size: 15px;
+  }
+  
+  .btn-icon {
+    font-size: 16px;
+  }
 }

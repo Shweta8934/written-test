@@ -34,7 +34,6 @@ const QuestionSelectionPage = ({
           answer: userAnswers[idx] || q.answer || "", // user's input or default
         })),
       };
-      console.log(payload);
 
       // API call
       const res = await axios.post(
@@ -146,7 +145,7 @@ const QuestionSelectionPage = ({
           onClick={handleSave}
           disabled={selectedQuizQuestions.length === 0 || isSaving}
         >
-          {isSaving ? "Saving..." : "Save Quiz"}
+          {isSaving ? "Saving..." : "Save Paper"}
         </button>
       </div>
     </div>

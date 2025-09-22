@@ -1,6 +1,6 @@
-.sidebar {
+/* .sidebar {
   width: 200px;
-  background-color: #fff; /* Sidebar ka background white */
+  background-color: #fff;
   color: #333;
   padding: 20px;
   height: 100vh;
@@ -37,4 +37,86 @@
 
 .sidebar .fas {
   color: #3498db;
+} */
+
+/* Sidebar.css */
+
+.sidebar {
+  width: 220px;
+  height: 100vh;
+  background-color: #1f2937; /* dark gray */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 1rem 0;
+  box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+}
+
+.sidebar-header {
+  text-align: center;
+  color: #fff;
+  font-size: 1.5rem;
+  font-weight: bold;
+  padding: 1rem 0;
+  border-bottom: 1px solid #374151;
+}
+
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  margin-top: 1rem;
+}
+
+.sidebar-button {
+  display: flex;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  background: none;
+  border: none;
+  color: #d1d5db; /* light gray */
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.sidebar-button i {
+  margin-right: 1rem;
+  font-size: 1.2rem;
+  width: 20px;
+  text-align: center;
+}
+
+/* Hover effect */
+.sidebar-button:hover {
+  background-color: #374151; /* darker gray on hover */
+  color: #fff;
+}
+
+/* Active item */
+.sidebar-button.active {
+  background-color: #4f46e5; /* purple accent */
+  color: #fff;
+}
+
+.sidebar-footer {
+  text-align: center;
+  color: #9ca3af; /* gray */
+  font-size: 0.85rem;
+  padding: 1rem 0;
+  border-top: 1px solid #374151;
+}
+
+/* Optional: make it responsive for small screens */
+@media (max-width: 768px) {
+  .sidebar {
+    width: 60px;
+  }
+
+  .sidebar-button span {
+    display: none; /* hide text, show only icons */
+  }
+
+  .sidebar-header h2 {
+    display: none;
+  }
 }

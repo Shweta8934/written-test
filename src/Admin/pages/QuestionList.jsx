@@ -17,8 +17,6 @@ const QuestionList = () => {
           `${API_URL}/api/question/getAllQuestions`
         );
 
-        console.log("TT01: ", response);
-        console.log("TT02: ", `${API_URL}/api/question/getAllQuestions`);
         setQuestions(response.data?.questions || []);
         setLoading(false);
       } catch (err) {
@@ -44,43 +42,46 @@ const QuestionList = () => {
 
   return (
     <div className="question-list-page">
-      <header className="page-header">
-        <h1 className="page-title">All Questions</h1>
-      </header>
-
-      <div className="filter-controls">
-        <div className="filter-group">
-          <label htmlFor="type-filter" className="filter-label">
-            Filter by Type
-          </label>
-          <select
-            id="type-filter"
-            value={filterType}
-            onChange={(e) => setFilterType(e.target.value)}
-          >
-            <option value="">All Types</option>
-            <option value="mcq">MCQ</option>
-            <option value="one-line">One-line</option>
-            <option value="coding">Coding</option>
-          </select>
+      {/* Header with Title and Filters in same row */}
+      <div className="page-header-row">
+        <div className="page-title-section">
+          <h2 className="page-title">All Questions</h2>
         </div>
 
-        <div className="filter-group">
-          <label htmlFor="topic-filter" className="filter-label">
-            Filter by Topic
-          </label>
-          <select
-            id="topic-filter"
-            value={filterTopic}
-            onChange={(e) => setFilterTopic(e.target.value)}
-          >
-            <option value="">All Topics</option>
-            {uniqueTopics.map((topic) => (
-              <option key={topic} value={topic}>
-                {topic}
-              </option>
-            ))}
-          </select>
+        <div className="filter-controls-inline">
+          <div className="filter-group">
+            <label htmlFor="type-filter" className="filter-label">
+              Filter by Type
+            </label>
+            <select
+              id="type-filter"
+              value={filterType}
+              onChange={(e) => setFilterType(e.target.value)}
+            >
+              <option value="">All Types</option>
+              <option value="mcq">MCQ</option>
+              <option value="one-line">One-line</option>
+              <option value="coding">Coding</option>
+            </select>
+          </div>
+
+          <div className="filter-group">
+            <label htmlFor="topic-filter" className="filter-label">
+              Filter by Topic
+            </label>
+            <select
+              id="topic-filter"
+              value={filterTopic}
+              onChange={(e) => setFilterTopic(e.target.value)}
+            >
+              <option value="">All Topics</option>
+              {uniqueTopics.map((topic) => (
+                <option key={topic} value={topic}>
+                  {topic}
+                </option>
+              ))}
+            </select>
+          </div>
         </div>
       </div>
 
@@ -89,7 +90,9 @@ const QuestionList = () => {
           filteredQuestions.map((q) => (
             <div key={q.id} className="question-card">
               <div className="card-header">
-                <span className="question-type-badge">
+                <span
+                  className={`question-type-badge ${q.questionType.toLowerCase()}-badge`}
+                >
                   {q.questionType.toUpperCase()}
                 </span>
                 <span className="question-topic-badge">{q.questionTopic}</span>
