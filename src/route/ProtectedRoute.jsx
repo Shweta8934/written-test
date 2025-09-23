@@ -1,16 +1,17 @@
+import React from "react";
 import { useSelector } from "react-redux";
-import { Navigate } from "react-router-dom";
+import { Navigate, useLocation } from "react-router-dom";
 
 const ProtectedRoute = ({ children }) => {
-  const { isLoggedIn } = useSelector((state) => state.user);
+  const user = useSelector((state) => state.user.user);
+  const location = useLocation();
 
-  // If user is not logged in, redirect to login page
-  if (!isLoggedIn) {
-    return <Navigate to="/" replace />;
+  if (!user) {
+    // Agar user login nahi hai, login page pe bhej do
+    return <Navigate to="/" state={{ from: location }} replace />;
   }
 
-  // If logged in, render the children route
-  return children;
+  return children; // Agar login hai toh children render karo
 };
 
 export default ProtectedRoute;

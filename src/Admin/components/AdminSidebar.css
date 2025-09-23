@@ -1,6 +1,6 @@
 .admin-sidebar {
   width: 280px;
-  background: linear-gradient(135deg, #121c26 0%, #b1d0f2 100%);
+  background: linear-gradient(135deg, #c8daec 0%, #b1d0f2 100%);
   padding: 0;
   display: flex;
   flex-direction: column;
@@ -31,7 +31,7 @@
 }
 
 .sidebar-header h3 {
-  color: white;
+  color: rgb(7, 7, 7);
   margin: 0;
   font-size: 22px;
   font-weight: 600;
@@ -53,7 +53,7 @@
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 12px;
   padding: 16px 20px;
-  color: white;
+  color: rgb(18, 17, 17);
   font-size: 16px;
   font-weight: 500;
   cursor: pointer;

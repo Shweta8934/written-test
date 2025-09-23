@@ -25,6 +25,13 @@ body {
   box-sizing: border-box;
 }
 
+/* Text selection block */
+.no-select {
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
 
 
 /* Quiz Top Bar */
@@ -90,63 +97,97 @@ body {
 }
 
 /* Confirmation Modal */
+/* Modal overlay covers the whole screen */
 .modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.6);
+  background-color: rgba(0, 0, 0, 0.6); /* semi-transparent dark background */
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 1000;
-  backdrop-filter: blur(5px);
-  animation: fadeIn 0.3s ease-out;
 }
 
+/* Modal content box */
 .modal-content {
-  background: #ffffff;
-  padding: 40px;
-  border-radius: 12px;
-  text-align: center;
-  max-width: 450px;
+  background-color: #fff;
+  padding: 30px 25px;
+  border-radius: 10px;
   width: 90%;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-  transform: translateY(-20px);
-  animation: slideIn 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  max-width: 400px;
+  text-align: center;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  animation: modalFadeIn 0.3s ease-in-out;
 }
 
+/* Modal header */
 .modal-content h2 {
-  color: #28a745;
-  margin-bottom: 10px;
-  font-size: 1.8rem;
+  font-size: 1.5rem;
+  margin-bottom: 15px;
+  color: #333;
 }
 
+/* Modal text */
 .modal-content p {
-  color: #666;
   font-size: 1rem;
+  margin-bottom: 25px;
+  color: #555;
+  line-height: 1.4;
 }
 
+/* Buttons container */
+.modal-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+/* Modal buttons common style */
 .modal-btn {
-  margin-top: 25px;
-  padding: 12px 30px;
-  background: #28a745;
-  color: white;
+  padding: 10px 25px;
   border: none;
-  border-radius: 50px;
+  border-radius: 5px;
   cursor: pointer;
   font-size: 1rem;
-  font-weight: 600;
-  transition: background-color 0.3s ease, transform 0.2s ease;
+  font-weight: 500;
+  transition: background 0.2s, color 0.2s;
 }
 
-.modal-btn:hover {
-  background: #218838;
-  transform: translateY(-2px);
+/* Yes button style */
+.modal-btn.yes {
+  background-color: #4caf50;
+  color: #fff;
 }
 
-/* Animations */
+.modal-btn.yes:hover {
+  background-color: #45a049;
+}
+
+/* No button style */
+.modal-btn.no {
+  background-color: #f44336;
+  color: #fff;
+}
+
+.modal-btn.no:hover {
+  background-color: #e53935;
+}
+
+/* Simple fade-in animation for modal */
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 @keyframes pulse {
   0% { transform: scale(1); }
   50% { transform: scale(1.05); }

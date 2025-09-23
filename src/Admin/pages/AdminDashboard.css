@@ -8,15 +8,15 @@ html, body, #root {
 .admin-dashboard-container {
   display: flex;
   height: 100vh;
-  background-color: #ffffff; /* White background */
-  color: #000000; /* Black text for better contrast */
+  background-color: #ffffff;
+  color: #000000;
   font-family: Arial, sans-serif;
 }
 
 .admin-content-area {
-  flex-grow: 1; /* Takes up the remaining space */
+  flex-grow: 1;
   padding: 20px;
-  overflow-y: auto; /* Allows scrolling if content is too long */
-  background-color: #ffffff; /* White background inside content */
-  color: #000000; /* Black text */
+  overflow-y: auto;
+  background-color: #ffffff;
+  color: #000000;
 }

@@ -47,3 +47,18 @@
     text-align: left;
   }
 }
+.logout-button {
+  padding: 10px 20px; /* thoda chhota than start-screen button */
+  font-size: 0.95rem;
+  background-color: #007bff; /* theme color */
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.logout-button:hover {
+  background-color: #0056b3; /* thoda dark on hover */
+  transform: translateY(-1px); /* subtle lift effect */
+}

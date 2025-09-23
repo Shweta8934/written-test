@@ -4,7 +4,7 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
   quizData: [],
   usersList: [],
-  // और भी बहुत कुछ
+
 };
 
 const adminSlice = createSlice({

@@ -1,4 +1,4 @@
-import React, { use, useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom"; // ✅ for navigation
 import axios from "axios";
 import QuestionCard from "../QuestionCard/QuestionCard";
@@ -6,18 +6,69 @@ import Navigation from "../Navigation/Navigation";
 import Timer from "../Timer/Timer";
 import "./QuizContainer.css";
 import Header from "../Header/Header";
+import { useDispatch } from "react-redux";
+import { logout } from "../../redux/slice/userSlice"; // path check karo
 
 const QuizContainer = ({ userId }) => {
   const navigate = useNavigate(); // ✅ initialize navigation
-
+  const dispatch = useDispatch();
+  const [showConfirmation, setShowConfirmation] = useState(false); // modal open state
+  const [submitPending, setSubmitPending] = useState(false);
   const [questions, setQuestions] = useState([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [loading, setLoading] = useState(true);
   const [paperId, setPaperId] = useState(""); // Dynamic paperId
-  const [showConfirmation, setShowConfirmation] = useState(false); // ✅ modal state
 
   const API_URL = process.env.REACT_APP_API_URL;
   const totalQuestions = questions.length;
+
+  // ✅ Track tab switch count
+  const tabSwitchCount = useRef(0);
+
+  // Prevent text selection
+  useEffect(() => {
+    const handleSelectStart = (e) => e.preventDefault();
+    document.addEventListener("selectstart", handleSelectStart);
+
+    return () => document.removeEventListener("selectstart", handleSelectStart);
+  }, []);
+
+  // Handle tab/window switch
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+      if (document.hidden) {
+        tabSwitchCount.current += 1;
+        if (tabSwitchCount.current > 3) {
+          alert(
+            "You switched tabs too many times! Quiz will be submitted automatically."
+          );
+          handleSubmit();
+        } else {
+          alert(`Warning! You switched tab ${tabSwitchCount.current} time(s).`);
+        }
+      }
+    };
+
+    const handleWindowBlur = () => {
+      tabSwitchCount.current += 1;
+      if (tabSwitchCount.current > 3) {
+        alert(
+          "You switched tabs too many times! Quiz will be submitted automatically."
+        );
+        handleSubmit();
+      } else {
+        alert(`Warning! You switched tab ${tabSwitchCount.current} time(s).`);
+      }
+    };
+
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+    window.addEventListener("blur", handleWindowBlur);
+
+    return () => {
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+      window.removeEventListener("blur", handleWindowBlur);
+    };
+  }, [questions, paperId]);
 
   useEffect(() => {
     const fetchUserPapersAndQuestions = async () => {
@@ -27,18 +78,20 @@ const QuizContainer = ({ userId }) => {
         );
         const userData = userRes.data;
 
-        // ✅ Use tests instead of subcollections.assignedPapers
         const paperObjs = userData?.tests || [];
-
-        // ✅ Map testId as paperId
         const paperIds = paperObjs.map((t) => t.testId);
-
+        // ✅ Check if first test is already submitted
+        const firstTest = paperObjs[0];
+        if (firstTest.isSubmitted) {
+          alert("You have already submitted this quiz. Redirecting to home.");
+          navigate("/"); // redirect to /
+          return;
+        }
         if (paperIds.length === 0) {
           setLoading(false);
           return;
         }
 
-        // ✅ first paperId = first testId
         setPaperId(paperIds[0]);
 
         const paperPromises = paperIds.map((pid) =>
@@ -92,6 +145,35 @@ const QuizContainer = ({ userId }) => {
     );
   };
 
+  // const handleSubmit = async () => {
+  //   try {
+  //     if (!paperId) return;
+
+  //     // ✅ Confirmation popup
+  //     const confirmed = window.confirm(
+  //       "Are you sure you want to submit the quiz?"
+  //     );
+  //     if (!confirmed) return; // Agar user cancel kare, submit nahi hoga
+
+  //     const payload = {
+  //       paperId,
+  //       userId,
+  //       responses: questions.map((q) => ({
+  //         questionId: q.id,
+  //         answer: q.selectedOption || "",
+  //       })),
+  //     };
+
+  //     await axios.post(`${API_URL}/api/result/submit`, payload);
+
+  //     // ✅ Logout user immediately
+  //     dispatch(logout());
+  //     navigate("/"); // Redirect to login page
+  //   } catch (err) {
+  //     console.error(err);
+  //     alert("Failed to submit quiz.");
+  //   }
+  // };
   const handleSubmit = async () => {
     try {
       if (!paperId) return;
@@ -107,16 +189,30 @@ const QuizContainer = ({ userId }) => {
 
       await axios.post(`${API_URL}/api/result/submit`, payload);
 
-      // Show confirmation modal
-      setShowConfirmation(true);
+      // ✅ Logout user immediately
+      dispatch(logout());
+      navigate("/"); // Redirect to login page
     } catch (err) {
       console.error(err);
       alert("Failed to submit quiz.");
     }
   };
 
+  // ✅ Open modal instead of window.confirm
+  const handleSubmitClick = () => {
+    setShowConfirmation(true);
+  };
+
+  const handleConfirmSubmit = () => {
+    setShowConfirmation(false);
+    handleSubmit();
+  };
+
+  const handleCancelSubmit = () => {
+    setShowConfirmation(false);
+  };
   if (loading) {
-    return <div className="quiz-loading">Loading your quiz...</div>;
+    return <div className="quiz-loading">Loading your question paper...</div>;
   }
 
   if (!loading && questions.length === 0) {
@@ -138,7 +234,7 @@ const QuizContainer = ({ userId }) => {
     <>
       <Header />
 
-      <div className="quiz-container">
+      <div className="quiz-container no-select">
         <div
           className="quiz-top-bar"
           style={{
@@ -173,17 +269,24 @@ const QuizContainer = ({ userId }) => {
           totalQuestions={totalQuestions}
           onNext={handleNext}
           onPrev={handlePrev}
-          onSubmit={handleSubmit}
+          onSubmit={handleSubmitClick}
         />
-        {/* ✅ Confirmation Modal */}
         {showConfirmation && (
           <div className="modal-overlay">
             <div className="modal-content">
-              <h2>Quiz Submitted Successfully!</h2>
-              <p>Thank you for completing the quiz.</p>
-              <button onClick={() => navigate("/")} className="modal-btn">
-                OK
-              </button>
+              <h2>Submit Quiz?</h2>
+              <p>
+                Are you sure you want to submit your quiz? This action cannot be
+                undone.
+              </p>
+              <div className="modal-buttons">
+                <button className="modal-btn yes" onClick={handleConfirmSubmit}>
+                  Yes
+                </button>
+                <button className="modal-btn no" onClick={handleCancelSubmit}>
+                  No
+                </button>
+              </div>
             </div>
           </div>
         )}
