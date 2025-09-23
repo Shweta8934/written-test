@@ -70,40 +70,98 @@ const QuizContainer = ({ userId }) => {
     };
   }, [questions, paperId]);
 
+  // useEffect(() => {
+  //   const fetchUserPapersAndQuestions = async () => {
+  //     try {
+  //       const userRes = await axios.get(
+  //         `${API_URL}/api/users/getUser/${userId}`
+  //       );
+  //       const userData = userRes.data;
+  //       const user = userData;
+  //       if (
+  //         user.tests &&
+  //         user.tests.length > 0 &&
+  //         user.tests[0].isSubmitted === true
+  //       ) {
+  //         alert("You have already submitted this quiz. Redirecting to home.");
+  //         navigate("/"); // redirect to home
+  //       }
+  //       const paperObjs = userData?.tests || [];
+  //       const paperIds = paperObjs.map((t) => t.testId);
+  //       // ✅ Check if first test is already submitted
+  //       const firstTest = paperObjs[0];
+
+  //       if (paperIds.length === 0) {
+  //         setLoading(false);
+  //         return;
+  //       }
+
+  //       setPaperId(paperIds[0]);
+
+  //       const paperPromises = paperIds.map((pid) =>
+  //         axios.get(`${API_URL}/api/questionPaper/getQuestion/${pid}`)
+  //       );
+  //       const paperResponses = await Promise.all(paperPromises);
+
+  //       const allQuestions = paperResponses
+  //         .map((res) => res.data?.questions || res.data?.data?.questions || [])
+  //         .flat();
+
+  //       const normalizedQuestions = allQuestions.map((q, idx) => ({
+  //         id: q.id || idx + 1,
+  //         question: q.question || q.questionText || "Untitled Question",
+  //         questionType: q.questionType || q.type || "mcq",
+  //         options: q.options || [],
+  //         code: q.code || "",
+  //         language: q.language || "JavaScript",
+  //         answer: q.answer || "",
+  //         selectedOption: q.selectedOption || null,
+  //       }));
+
+  //       setQuestions(normalizedQuestions);
+  //     } catch (err) {
+  //       console.error("Error fetching user papers/questions:", err);
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   };
+
+  //   fetchUserPapersAndQuestions();
+  // }, [userId]);
   useEffect(() => {
     const fetchUserPapersAndQuestions = async () => {
       try {
-        const userRes = await axios.get(
-          `${API_URL}/api/users/getUser/${userId}`
+        const res = await axios.get(
+          `https://averybit-written.onrender.com/api/users/getUser/${userId}`
         );
-        const userData = userRes.data;
-        if (firstTest.isSubmitted) {
+        const user = res.data;
+
+        // ✅ Check if user has already submitted the first test
+        if (user.tests && user.tests.length > 0 && user.tests[0].isSubmitted) {
           alert("You have already submitted this quiz. Redirecting to home.");
-          navigate("/"); // redirect to /
+          navigate("/login"); // redirect to login or home
           return;
         }
-        const paperObjs = userData?.tests || [];
-        const paperIds = paperObjs.map((t) => t.testId);
-        // ✅ Check if first test is already submitted
-        const firstTest = paperObjs[0];
 
-        if (paperIds.length === 0) {
+        const tests = user.tests || [];
+        if (tests.length === 0) {
           setLoading(false);
           return;
         }
 
-        setPaperId(paperIds[0]);
+        const firstTestId = tests[0].testId;
+        setPaperId(firstTestId);
 
-        const paperPromises = paperIds.map((pid) =>
-          axios.get(`${API_URL}/api/questionPaper/getQuestion/${pid}`)
+        // Fetch questions for the first test
+        const questionRes = await axios.get(
+          `https://averybit-written.onrender.com/api/questionPaper/getQuestion/${firstTestId}`
         );
-        const paperResponses = await Promise.all(paperPromises);
+        const fetchedQuestions =
+          questionRes.data?.questions ||
+          questionRes.data?.data?.questions ||
+          [];
 
-        const allQuestions = paperResponses
-          .map((res) => res.data?.questions || res.data?.data?.questions || [])
-          .flat();
-
-        const normalizedQuestions = allQuestions.map((q, idx) => ({
+        const normalizedQuestions = fetchedQuestions.map((q, idx) => ({
           id: q.id || idx + 1,
           question: q.question || q.questionText || "Untitled Question",
           questionType: q.questionType || q.type || "mcq",
@@ -116,15 +174,14 @@ const QuizContainer = ({ userId }) => {
 
         setQuestions(normalizedQuestions);
       } catch (err) {
-        console.error("Error fetching user papers/questions:", err);
+        console.error("Error fetching user data:", err);
       } finally {
         setLoading(false);
       }
     };
 
     fetchUserPapersAndQuestions();
-  }, [userId]);
-
+  }, [userId, navigate]);
   const handleNext = () => {
     if (currentQuestionIndex < totalQuestions - 1) {
       setCurrentQuestionIndex((prev) => prev + 1);
