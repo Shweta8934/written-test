@@ -77,16 +77,16 @@ const QuizContainer = ({ userId }) => {
           `${API_URL}/api/users/getUser/${userId}`
         );
         const userData = userRes.data;
-
-        const paperObjs = userData?.tests || [];
-        const paperIds = paperObjs.map((t) => t.testId);
-        // ✅ Check if first test is already submitted
-        const firstTest = paperObjs[0];
         if (firstTest.isSubmitted) {
           alert("You have already submitted this quiz. Redirecting to home.");
           navigate("/"); // redirect to /
           return;
         }
+        const paperObjs = userData?.tests || [];
+        const paperIds = paperObjs.map((t) => t.testId);
+        // ✅ Check if first test is already submitted
+        const firstTest = paperObjs[0];
+
         if (paperIds.length === 0) {
           setLoading(false);
           return;
