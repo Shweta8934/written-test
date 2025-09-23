@@ -1,52 +1,55 @@
-
 body {
   height: 100vh;
   margin: 0;
   display: flex;
   justify-content: center;
-  align-items: center;    
+  align-items: center;
   font-family: Arial, sans-serif;
   background-color: #f0f2f5;
 }
 
 .login-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   background-color: #fff;
-  padding: 40px 50px;
-  border-radius: 10px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  padding: 30px 35px; /* reduced padding */
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   width: 100%;
-  max-width: 450px;
+  max-width: 380px; /* smaller width */
   text-align: center;
   margin: auto;
 }
+
 .login-title {
   color: black !important;
   font-weight: normal;
- 
+  margin-bottom: 15px;
+  font-size: 18px;
 }
 
 .login-image {
   text-align: center;
-  margin-bottom: 20px;
-  
+  margin-bottom: 15px; /* reduced margin */
 }
 
 .login-image img {
-width: 150px;
-  max-width: 100%; 
-  height: auto;  
+  width: 120px;
+  max-width: 100%;
+  height: auto;
 }
 
 form {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 15px; /* reduced gap */
 }
 
 .form-grid {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 15px; /* reduced gap */
 }
 
 .form-group {
@@ -60,18 +63,17 @@ label {
   font-weight: bold;
   margin-bottom: 5px;
   text-align: left;
-  width: 100%;
+  font-size: 14px;
 }
 
 input[type="text"],
 input[type="email"],
 input[type="password"] {
   width: 100%;
-  padding: 12px 14px;
+  padding: 10px 12px; /* smaller padding */
   border: 1px solid #ccc;
   border-radius: 6px;
-  font-size: 16px;
-  transition: all 0.2s ease;
+  font-size: 14px; /* smaller font */
 }
 
 input[type="text"]:focus,
@@ -83,17 +85,17 @@ input[type="password"]:focus {
 }
 
 button[type="submit"] {
-  padding: 12px 20px;
+  padding: 10px 16px; /* smaller button */
   background-color: #007bff;
   color: white;
   border: none;
   border-radius: 6px;
   cursor: pointer;
-  font-size: 18px;
+  font-size: 16px; /* smaller font */
   font-weight: bold;
   transition: background-color 0.3s ease;
   margin-top: 10px;
-  width: 200px;
+  width: 150px;
   display: block;
   margin-left: auto;
   margin-right: auto;
@@ -103,7 +105,6 @@ button[type="submit"]:hover {
   background-color: #0056b3;
 }
 
-
 .password-input-wrapper {
   position: relative;
   width: 100%;
@@ -111,12 +112,12 @@ button[type="submit"]:hover {
 
 .password-input-wrapper input {
   width: 100%;
- position: relative;
+  position: relative;
 }
 
 .show-password-btn {
   position: absolute;
-  right: 10px; 
+  right: 10px;
   top: 50%;
   transform: translateY(-50%);
   background: none;
@@ -125,7 +126,7 @@ button[type="submit"]:hover {
   font-weight: bold;
   cursor: pointer;
   padding: 0;
-  font-size: 14px;
+  font-size: 12px; /* smaller font */
 }
 
 .show-password-btn:hover {
@@ -134,14 +135,15 @@ button[type="submit"]:hover {
 
 .error {
   color: red;
-  font-size: 14px;
-  margin-top: -10px;
-  margin-bottom: 10px;
+  font-size: 13px;
+  margin-top: -8px;
+  margin-bottom: 8px;
   text-align: left;
 }
 
 .register-link {
-  margin-top: 15px;
+  margin-top: 12px;
+  font-size: 14px;
 }
 
 .register-link a {
@@ -153,31 +155,6 @@ button[type="submit"]:hover {
   text-decoration: underline;
 }
 
-.loader-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(255, 255, 255, 0.8);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 9999;
-}
 
 
 
-.spinner {
-  border: 6px solid #f3f3f3;
-  border-top: 6px solid #3498db;
-  border-radius: 50%;
-  width: 60px;
-  height: 60px;
-  animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}

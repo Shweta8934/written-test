@@ -138,7 +138,7 @@ const QuizContainer = ({ userId }) => {
 
         // ✅ Check if user has already submitted the first test
         if (user.tests && user.tests.length > 0 && user.tests[0].isSubmitted) {
-          alert("You have already submitted this quiz. Redirecting to home.");
+          // alert("You have already submitted this quiz. Redirecting to home.");
           navigate("/login"); // redirect to login or home
           return;
         }

@@ -111,6 +111,16 @@
   transform: translateX(8px);
 }
 
+.logout-btn {
+  margin-top: 20px;
+  background-color: #e74c3c;
+  color: #fff;
+}
+
+.logout-btn:hover {
+  background-color: #c0392b;
+}
+
 /* Responsive design */
 @media (max-width: 768px) {
   .admin-sidebar {

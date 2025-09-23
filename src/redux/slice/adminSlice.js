@@ -4,7 +4,6 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
   quizData: [],
   usersList: [],
-
 };
 
 const adminSlice = createSlice({
@@ -17,8 +16,13 @@ const adminSlice = createSlice({
     setUsersList: (state, action) => {
       state.usersList = action.payload;
     },
+    logoutAdmin: (state) => {
+      // Reset the admin state on logout
+      state.quizData = [];
+      state.usersList = [];
+    },
   },
 });
 
-export const { setQuizData, setUsersList } = adminSlice.actions;
+export const { setQuizData, setUsersList, logoutAdmin } = adminSlice.actions;
 export default adminSlice.reducer;
